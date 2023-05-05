@@ -31,10 +31,12 @@ public class BoardView implements Runnable {
             //if the images are same
                 if(cards[i1].getImageSorce() == cards[i2].getImageSorce()) {
                     
+                    //also if it's the player 1's turn
                     if (p1.isMyTurn()==true) {
                     p1.addScore();
                     p1Score.setText("Score: " + p1.getScore());
-
+                    
+                    //or also if it's the player 2's turn
                     } else if (p2.isMyTurn()==true) {
                     p2.addScore();
                     p2Score.setText("Score: " + p2.getScore());
@@ -68,6 +70,7 @@ public class BoardView implements Runnable {
                     
                     timer.start();
                     
+                    //Change turn and color of the pannel. 
                     if (p1.isMyTurn()==true) {
                         p1.No();
                         p2.Yes();
@@ -87,6 +90,7 @@ public class BoardView implements Runnable {
                 return 0;
         }
 
+    //Giving each card a value from 0-15. 
     public int getCardIndex(JButton btn) {
         int index = 0;
         for(int i=0; i<16; i++){
@@ -99,6 +103,7 @@ public class BoardView implements Runnable {
 
     public void run() {
 
+        //making the basic frame.
         JFrame frame = new JFrame("Memory-game");
 
         JPanel gridPanel = new JPanel();
@@ -106,8 +111,9 @@ public class BoardView implements Runnable {
         gridPanel.setBounds(150, 0, 530, 400); //x,y,width,heigth
         gridPanel.setBackground(Color.blue);
 
-        p1 = new Player("Kevenn", true);
-        p2 = new Player("Dinaaa", false);
+        //Player section
+        p1 = new Player("Kevin", true);
+        p2 = new Player("Dina", false);
 
         JLabel spacer = new JLabel("  ");
 
@@ -140,6 +146,7 @@ public class BoardView implements Runnable {
         panel2.setBounds(0, 400, 700, 60); //x,y,width,heigth
         panel2.setBackground(Color.blue);
 
+        //restart and end game buttons
         JButton new_game = new JButton("New");
         JButton end_game = new JButton("End");
         new_game.setBackground(Color.green);
@@ -151,7 +158,7 @@ public class BoardView implements Runnable {
         new_game.setBorder(new LineBorder(Color.BLACK));
         end_game.setBorder(new LineBorder(Color.BLACK));
         
-        //Exit game button
+        //Exit game button action
         ActionListener al = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,7 +167,7 @@ public class BoardView implements Runnable {
         };
         end_game.addActionListener(al);
 
-        // restart game button
+        // restart button action
         ActionListener a2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -177,7 +184,7 @@ public class BoardView implements Runnable {
                     gridPanel.add(cards[i].button);
                 }
 
-                //Reset the score. 
+                //Reset the score.
                 p1.resetScore();
                 p2.resetScore();
                 p1Score.setText("Score: " + p1.getScore());
@@ -201,6 +208,7 @@ public class BoardView implements Runnable {
         };
         new_game.addActionListener(a2);
 
+        //Making the cards.
         cards = new Card[16];
 
         String[] images = {
@@ -210,6 +218,7 @@ public class BoardView implements Runnable {
             "src/img/fruit05.png", "src/img/fruit06.png", "src/img/fruit07.png", "src/img/fruit08.png"
         };
 
+        //Put the images to the cards. 
         for (int j = 0; j < cards.length; j++) {
             cards[j] = new Card(new JButton(), images[j]);
         }
@@ -222,12 +231,14 @@ public class BoardView implements Runnable {
         //Matching the shuffled index to the buttons 
         for (int i = 0; i < cards.length; i++) {
               cards[i].setIndex(i);
+                
+                //Comparing if cards are the same when they are clicked.
                 cards[i].button.addActionListener(new ActionListener() {
 
                     public void actionPerformed(ActionEvent e) {
 
                         JButton btn = (JButton) e.getSource();
-                        counter++;
+                        counter++; 
 
                         //if the card is opened
                         if(!(cards[getCardIndex(btn)].getStatus())) {
