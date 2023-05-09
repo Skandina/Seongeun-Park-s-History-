@@ -1,0 +1,25 @@
+version: '3'
+
+volumes:
+  app-cache:
+    driver: local
+
+services:
+  imgwrt:
+    sysctls:
+        - net.ipv6.conf.all.disable_ipv6=1
+    container_name: imgwrt 
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    restart: on-failure
+    ports:
+        - 5031:5031 
+    volumes:
+      - app-cache:/root/.cache
+ #     deploy:
+ #     resources:
+ #       reservations:
+ #         devices:
+ #           - capabilities: [ gpu ]
